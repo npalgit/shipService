@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<body>
+
+    <div ng-app="myApp" ng-controller="myCtrl">
+
+        <p>Today's welcome message is:</p>
+
+ 
+
+        <span ng-repeat="x in RateReply">
+        {{x.DeliveryDayOfWeek[0]}}
+        {{x.ServiceType[0]}}
+        {{x.DeliveryTimestamp[0]}}
+         
+
+
+        <span ng-repeat="y in x.RatedShipmentDetails">
+
+{{y.ShipmentRateDetail[0].TotalNetCharge[0].Amount[0]}}
+        </span>
+
+
+ </span>
+    </div>
+
+    <p>The $http service requests a page on the server, and the response is set as the value of the "myWelcome" variable.</p>
+
+    <script>
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope, $http) {
+    $http.get("http://localhost:8080/fedex/rates")
+  .then(function(response) {
+      $scope.RateReply = response.data.RateReplyDetails;
+  });
+});
+    </script>
+
+</body>
+</html>
+
